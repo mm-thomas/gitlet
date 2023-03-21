@@ -17,8 +17,6 @@ import java.util.Map.Entry;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
-
-
 public class UtilTest {
 
     // original function returns void, but testing purposes requires return of arraylist to enable cross-check testing.
@@ -52,8 +50,6 @@ public class UtilTest {
         return gObj;
     }
 
-
-
     @Test
     public void testCheckOutFileFromCommit() throws ClassNotFoundException, IOException {
         
@@ -75,14 +71,12 @@ public class UtilTest {
         Util.add("testblob.txt");
         Util.commit("testblobcommit");
 
-
         ArrayList<GObject> firstCommit = find("testblobcommit");
         String commitSha = firstCommit.get(0).getSha();
 
         fw = new FileWriter(f.toString());
         fw.write("This is edited.");
         fw.close();
-
 
         Util.add("testblob.txt");
         Util.commit("secondtest");
@@ -96,12 +90,6 @@ public class UtilTest {
 
     }
 
-
- 
-    
-
-
-    //DONE
     @Test
     public void testAdd() throws IOException, ClassNotFoundException {
         if (Util.checkIfDirExists(Util.getWD() + "\\.git") == false){
@@ -174,12 +162,6 @@ public class UtilTest {
         FileUtils.deleteDirectory(new File(Util.getWD() + "\\.git"));  
     }
 
-
-
-
-
-    //TO FIX
-
     @Test
     public void testBranch() throws IOException, ClassNotFoundException {
         if (Util.checkIfDirExists(Util.getWD() + "\\.git") == false){
@@ -236,14 +218,7 @@ public class UtilTest {
         assertFalse(pa.contains(a));
 
         FileUtils.deleteDirectory(new File(Util.getWD() + "\\.git"));
-
-        
     }
-
-
-
-
-    
 
     @Test
     public void testFind() throws ClassNotFoundException, IOException {
@@ -280,8 +255,6 @@ public class UtilTest {
            
     }
 
-
-    //DONE
     @Test
     public void testInit() throws IOException {
         if (Util.checkIfDirExists(Util.getWD() + "\\.git") == false){
@@ -291,14 +264,11 @@ public class UtilTest {
             FileUtils.deleteDirectory(new File(Util.getWD() + "\\.git"));
             Util.init(Util.getWD()); // start with empty git directory.
         }
-
-
         File f = new File (Util.getWD() + "\\.git");
-        
+     
         assertTrue(f.exists());
         FileUtils.deleteDirectory(new File(Util.getWD() + "\\.git")); 
     }
-
 
     @Test
     public void testRm() throws IOException, ClassNotFoundException {
@@ -328,7 +298,7 @@ public class UtilTest {
         Util.rm("test.txt");
 
         GObject untrackedFileObj = (GObject) Util.deserialise(Util.getWD() + "\\.git\\info\\untrackedfiles.txt");
-       LinkedHashMap<String, String> list = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> list = new LinkedHashMap<String, String>();
         list = untrackedFileObj.getUntrackedFiles();
 
         assertFalse(new File(Util.getWD() + "\\.git\\index\\test.txt").exists());
@@ -408,13 +378,11 @@ public class UtilTest {
 
         Util.add("blob1.txt");
         Util.commit("second test commit");
-
-
+        
         String str = Files.readString(Paths.get(test.toString()));
  
         assert(str.contains("edited"));
-            
-    
+        
         ArrayList<GObject> theCommit = find("test commit");
         String theCommitID = theCommit.get(0).getSha().substring(2);
         ArrayList<String> checkedOutFiles = new ArrayList<String>(); 
@@ -429,8 +397,6 @@ public class UtilTest {
 
         FileUtils.deleteDirectory(new File(Util.getWD() + "\\.git"));  
     }
-
-
 
     @Test
     public void testFindCommitFile() throws IOException, ClassNotFoundException {
@@ -458,7 +424,6 @@ public class UtilTest {
         Util.add("blob1.txt");
         Util.commit("test commit");
 
-    
         ArrayList<GObject> theCommit = find("test commit");
         String theCommitID = theCommit.get(0).getSha().substring(2);
        
@@ -468,9 +433,7 @@ public class UtilTest {
 
         FileUtils.deleteDirectory(new File(Util.getWD() + "\\.git"));  
     }
-
-    
-
+   
    /* aim: creating temporary files to test whether function will merge branch and head files together.
       goal: to merge branchMap back to headMap. assuming prioritisation of branchMap
       bTMap = branch Tree Map  ||  hTMap = head Tree Map
@@ -482,8 +445,6 @@ public class UtilTest {
         
         merge together result: file1 - new SHA | file2 - old SHA | file4 - new SHA | file6 - old SHA
     */
-    // testMerge sometimes errs. even though manual testing delivered correct results.
-
     @Test
     public void testMerge() throws IOException, ClassNotFoundException {
         
